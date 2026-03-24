@@ -46,26 +46,38 @@ This pipeline ensures **low-latency, high-quality bidirectional streaming** for 
 ```bash
 git clone https://github.com/Mirindra-lan/RealTalk-AVR.git
 cd RealTalk-AVR
-Install dependencies
+```
+2. **Install dependencies**
+```bash
 npm install
-Create a .env file
+```
+3. **Create a .env file**
+```bash
 WS_PORT=8080
 AVR_HOST=localhost
 AVR_PORT=5070
-Start the Node server
+```
+
+4. **Start the Node server**
+```bash
 node server.js
-Open the browser
+```
+
+5. **Open the browser**
 Navigate to index.html
 Click the phone icon to start streaming
-🎛 Usage
+
+## 🎛 Usage 
 Toggle Call: single button for start/stop
 Microphone Gain: adjust sensitivity
 Monitor Audio: VAD bars show microphone and server audio
 Permissions: WebSocket opens only after microphone access is granted
-✅ Requirements
+
+## ✅ Requirements
 Node.js v18+
 Modern browser (Chrome, Firefox, Edge)
 Running AVR-Core server accessible via TCP
-🔒 Security Notes
+
+## 🔒 Security Notes
 WebSocket connection opens only after microphone permission is granted
 Connection status is monitored to ensure audio streaming occurs only when properly connected
