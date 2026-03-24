@@ -43,15 +43,13 @@ async function initAudio() {
 
 toggleBtn.onclick = async () => {
 
-    // ▶️ START
     if (!isStreaming) {
         try {
             stream = await navigator.mediaDevices.getUserMedia({ audio: true });
         } catch (error) {
             console.error("Micro refusé :", err);
-            // feedback utilisateur
             alert("Autorisation micro requise !");
-            return; // ⛔ STOP → pas de WebSocket
+            return; 
         }
         if (!audioContext) await initAudio();
         if (audioContext.state === 'suspended') await audioContext.resume();
@@ -115,7 +113,7 @@ toggleBtn.onclick = async () => {
         }
 
     } 
-    // ⏹ STOP
+
     else {
 
         if (mediaRecorder) mediaRecorder.stop();

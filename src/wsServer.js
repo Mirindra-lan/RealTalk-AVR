@@ -5,7 +5,7 @@ const AudioProcessor = require('./audioProcessor');
 const {v4: uuidv4} = require("uuid");
 
 function startWsServer({ port, tcpHost, tcpPort }) {
-    const wss = new WebSocket.Server({ port });
+    const wss = new WebSocket.Server({ port: port, host: '0.0.0.0' });
     console.log(`WebSocket server running on port ${port}`);
 
     wss.on('connection', (ws) => {
@@ -14,20 +14,31 @@ function startWsServer({ port, tcpHost, tcpPort }) {
         const uuid = uuidv4();
         const tcpClient = new TcpClient(tcpHost, tcpPort);
         const audioProcessor = new AudioProcessor();
+        let accumulatedBuffer = Buffer.alloc(0);
 
-        tcpClient.connect(uuid, (data) => {
+        tcpClient.connect(uuid, (chunk) => {
+            accumulatedBuffer = Buffer.concat([accumulatedBuffer, chunk]);
+
             let offset = 0;
-            while (offset < data.length) {
-                const type = data.readUInt8(offset);
-                const length = data.readUInt16BE(offset + 1);
-                const payload = data.slice(offset + 3, offset + 3 + length);
 
-                if (type === 0x10 && ws.readyState === WebSocket.OPEN) {
-                    ws.send(payload);
+            while (offset + 3 <= accumulatedBuffer.length) {
+                const type = accumulatedBuffer.readUInt8(offset);
+                const length = accumulatedBuffer.readUInt16BE(offset + 1);
+
+                if (offset + 3 + length <= accumulatedBuffer.length) {
+                    const payload = accumulatedBuffer.subarray(offset + 3, offset + 3 + length);
+
+                    if (type === 0x10 && ws.readyState === WebSocket.OPEN) {
+                        ws.send(payload);
+                    }
+
+                    offset += 3 + length;
+                } else {
+                    break;
                 }
-
-                offset += 3 + length;
             }
+
+            accumulatedBuffer = accumulatedBuffer.subarray(offset);
         }, () => {
             audioProcessor.pipeToTcp(tcpClient);
         });
