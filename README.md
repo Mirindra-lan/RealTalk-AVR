@@ -64,20 +64,20 @@ node server.js
 ```
 
 5. **Open the browser**
-Navigate to index.html
-Click the phone icon to start streaming
+- Navigate to index.html
+- Click the phone icon to start streaming
 
 ## 🎛 Usage 
-Toggle Call: single button for start/stop
-Microphone Gain: adjust sensitivity
-Monitor Audio: VAD bars show microphone and server audio
-Permissions: WebSocket opens only after microphone access is granted
+- Toggle Call: single button for start/stop
+- Microphone Gain: adjust sensitivity
+- Monitor Audio: VAD bars show microphone and server audio
+- Permissions: WebSocket opens only after microphone access is granted
 
 ## ✅ Requirements
-Node.js v18+
-Modern browser (Chrome, Firefox, Edge)
-Running AVR-Core server accessible via TCP
+- Node.js v18+
+- Modern browser (Chrome, Firefox, Edge)
+- Running AVR-Core server accessible via TCP
 
 ## 🔒 Security Notes
-WebSocket connection opens only after microphone permission is granted
-Connection status is monitored to ensure audio streaming occurs only when properly connected
+- WebSocket connection opens only after microphone permission is granted
+- Connection status is monitored to ensure audio streaming occurs only when properly connected
